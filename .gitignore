@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+
+# production/build output
+dist/
+build/
+out/
+coverage/
+
+# env files
+.env
+.env.*
+!.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# caches
+.cache/
+.nyc_output/
+*.tsbuildinfo
+
+# Mongo / local data (common patterns)
+*.mongodb
+*.db
+
+# Next/React Native/other common tool leftovers (safe to keep)
+.next/
+out/
+expo/
+
+# nodemon / process managers
+nodemon.json
+pm2/
+
