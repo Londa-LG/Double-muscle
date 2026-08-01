@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 // create a new trainee
 async function createTrainee(req,res){
-  const { username,name,email,password } = req.body
+  const { username,name,email,password } = req.body;
+
   try{
     const trainee = await Trainee.create({username,name,email,password});
     res.status(200).json(trainee);
@@ -14,12 +15,13 @@ async function createTrainee(req,res){
 
 // get all trainee
 async function getTrainees(req, res){
-  try{
-    const trainees = await Trainee.find({}).sort({createdAt: -1});
-    res.status(200).json(trainees);
-  }catch(error){
-    res.status(400).json({error: error.message});
+  const trainees = await Trainee.find({}).sort({createdAt: -1});
+
+  if(!trainees){
+    return res.status(404).json({error: "No trainees found"});
   }
+
+  res.status(200).json(trainees);
 }
 
 // get a single trainee
@@ -27,7 +29,7 @@ async function getTrainee(req,res){
   const { id } = req.params
 
   if(!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(40).json({error: "No such trainee"});
+    return res.status(404).json({error: "No such trainee"});
   }
 
   const trainee = await Trainee.findById(id);

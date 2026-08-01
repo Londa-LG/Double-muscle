@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const workoutTagSchema = new Schema({
+const workoutTag = new Schema({
   workoutId:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Workout",
-    required: true
+    ref: "Workout"
   },
   tagId:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Tag",
-    required: true
+    ref: "Tag"
   }
-} { timestamps: true });
-
-module.exports = mongoose.model("Workout_Tag",workoutTagSchema);
+},{ timestamps: true });
