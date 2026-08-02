@@ -18,7 +18,7 @@ async function getReps(req,res){
   const reps = await Reps.find({}).sort({createdAt: -1});
 
   if(!reps){
-    return res.status(404).json({error: "No rep entries found});
+    return res.status(404).json({error: "No rep entries found"});
   }
 
   res.status(200).json(reps);

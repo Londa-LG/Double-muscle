@@ -1,4 +1,4 @@
-const Exercise = require("../mondels/exerciseModel");
+const Exercise = require("../models/exerciseModel");
 const mongoose = require("mongoose");
 
 // Create

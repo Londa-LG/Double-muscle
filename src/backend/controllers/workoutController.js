@@ -40,7 +40,7 @@ async function getWorkout(req,res){
 }
 
 // Update
-async fucntion updateWorkout(req,res){
+async function updateWorkout(req,res){
   const { id } = req.params;
 
   if(!mongoose.Types.ObjectId.isValid(id)){
