@@ -9,7 +9,7 @@ router.post("/", createWorkout);
 
 // Read
 router.get("/", getWorkouts);
-router.get("/:id", getWorkouts);
+router.get("/:id", getWorkout);
 
 // Update
 router.put("/:id", updateWorkout);

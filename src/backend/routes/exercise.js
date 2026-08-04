@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/", createExercise);
 
 // Read
-router.get("/", getExercise);
+router.get("/", getExercises);
 router.get("/:id", getExercise);
 
 // Update

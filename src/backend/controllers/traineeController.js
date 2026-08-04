@@ -49,7 +49,11 @@ async function updateTrainee(req,res){
     return res.status(404).json({error: "No such trainee"});
   }
 
-  const trainee = await Trainee.findOneAndUpdate({_id: id},{...req.body});
+  const trainee = await Trainee.findOneAndUpdate(
+    {_id: id},
+    {$set:req.body},
+    {returnDocument: "after", runValidators: true}
+  );
 
   if(!trainee){
     return res.status(404).json({error: "No such trainee"});

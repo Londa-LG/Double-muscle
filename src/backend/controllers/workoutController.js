@@ -1,4 +1,5 @@
 const Workout = require("../models/workoutModel");
+const Trainee = require("../models/traineeModel");
 const mongoose = require("mongoose");
 
 // Create
@@ -6,7 +7,11 @@ async function createWorkout(req,res){
   const { traineeId, name, weekDay } = req.body;
 
   try{
-    const workout = await Workout.create({traineeId,name,weekDay});
+    const trainee = await Trainee.findById(traineeId);
+    const workout = await Workout.create({
+      traineeId: trainee._id,
+      name: name,
+      weekDay: weekDay});
     res.status(200).json(workout);
   }catch(error){
     res.status(400).json({error: error.message});
@@ -15,12 +20,13 @@ async function createWorkout(req,res){
 
 // Read
 async function getWorkouts(req,res){
-  try{
-    const workouts = await Workout.find({}).sort({createdAt: -1});
-    res.status(200).json(workouts);
-  }catch(error){
+  const workouts = await Workout.find({}).sort({createdAt: -1});
+
+  if(!workouts){
     res.status(400).json({error: error.message});
   }
+
+  res.status(200).json(workouts);
 }
 
 async function getWorkout(req,res){
@@ -47,7 +53,11 @@ async function updateWorkout(req,res){
     return res.status(404).json({error: "No such workout"});
   }
 
-  const workout = await Workout.findOneAndUpdate({_id: id},{...req.body});
+  const workout = await Workout.findOneAndUpdate(
+    {_id: id},
+    { $set: req.body },
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!workout){
     return res.status(404).json({error: "No such workout"});

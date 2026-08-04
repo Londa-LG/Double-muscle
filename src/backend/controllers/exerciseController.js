@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 async function createExercise(req,res){
   const { workoutId, name, sets, weight, band } = req.body;
   try{
-    const exercise = await Exercise.create({workouttId,name,sets,weight,band});
+    const exercise = await Exercise.create({workoutId,name,sets,weight,band});
     res.status(200).json(exercise);
   }catch(error){
     res.status(400).json({error: error.message});
@@ -47,7 +47,11 @@ async function updateExercise(req,res){
     return res.status(404).json({error: "No such exercise"});
   }
 
-  const exercise = await Exercise.findOneAndUpdate({_id: id},{...req.body});
+  const exercise = await Exercise.findOneAndUpdate(
+    {_id: id},
+    {$set: req.body},
+    {returnDocument: "after", runValidators: true}
+  );
 
   if(!exercise){
     return res.status(404).json({error: "No such exercise"});
