@@ -1,4 +1,4 @@
-const Workout_Category = require("../models/Workout_Category");
+const Workout_Category = require("../models/workoutCategoryModel");
 const mongoose = require("mongoose");
 
 // Create
@@ -48,7 +48,11 @@ async function updateWorkoutCategory(req,res){
     return res.status(404).json({error: "No such workout category id"});
   }
 
-  const category = await Workout_Category.FondOneAndUpdate({_id:id},{...req.body});
+  const category = await Workout_Category.findOneAndUpdate(
+    {_id:id},
+    { $set: req.body},
+    {returnDocument: "after", runValidators: true}
+  );
 
   if(!category){
     return res.status(404).json({error: "No such workout category"});
@@ -65,9 +69,8 @@ async function deleteWorkoutCategory(req,res){
     return res.status(404).json({error: "No such workout category id"});
   }
 
-  const category = await Workout_Category.findOneAndDelte({_id: id});
-
-  if(!category){
+  const category = await Workout_Category.findOneAndDelete({_id: id});
+if(!category){
     return res.status(404).json({error: "No such workout category"});
   }
 

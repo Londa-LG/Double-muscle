@@ -3,19 +3,27 @@ const express = require("express");
 const mongoose = require("mongoose"); 
 const repRoutes = require("./routes/reps");
 const bandRoutes = require("./routes/band");
+const tagRoutes = require("./routes/tags");
 const traineeRoutes = require("./routes/trainee");
 const workoutRoutes = require("./routes/workout");
+const categoryRoutes = require("./routes/category");
 const exerciseRoutes = require("./routes/exercise");
+const exerciseTagRoutes = require("./routes/exerciseTags");
+const workoutCategoryRoutes = require("./routes/workoutCategories");
 
 const app = express();
 
 app.use(express.json());
 
 app.use("/reps",repRoutes);
+app.use("/tags", tagRoutes);
 app.use("/bands",bandRoutes);
 app.use("/trainees",traineeRoutes);
 app.use("/workouts",workoutRoutes);
 app.use("/exercises",exerciseRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/exercisetags", exerciseTagRoutes);
+app.use("/workoutcategories", workoutCategoryRoutes);
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

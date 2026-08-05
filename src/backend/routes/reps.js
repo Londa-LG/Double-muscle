@@ -7,11 +7,12 @@ const router = express.Router();
 // Create
 router.post("/", createRep);
 // Read
-router.post("/", getReps);
+router.get("/", getReps);
+router.get("/:id", getRep);
 
-router.post("/:id", getRep);
 // Update
 router.put("/:id", updateRep);
+
 // Delete
 router.delete("/:id", deleteRep);
 

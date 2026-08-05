@@ -6,8 +6,8 @@ async function createCategory(req,res){
   const { category } = req.body;
 
   try{
-    const category = await Category.create({category});
-    res.status(200).json(category);
+    const categoryEntry = await Category.create({category});
+    res.status(200).json(categoryEntry);
   }catch(error){
     res.status(400).json({error: error.message});
   }
@@ -15,7 +15,7 @@ async function createCategory(req,res){
 
 // Read
 async function getCategories(req,res){
-  const categories = await Train.find({}).sort({createdAt: -1});
+  const categories = await Category.find({}).sort({createdAt: -1});
 
   if(!categories){
     return res.status(404).json({error: "No categories"});
@@ -48,7 +48,11 @@ async function updateCategory(req,res){
     return res.status(404).json({error: "No such category id"});
   }
 
-  const category = await Category.findOneAndUpdate({_id:id},{...req.body});
+  const category = await Category.findOneAndUpdate(
+    {_id:id},
+    { $set: req.body},
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!category){
     return res.status(404).json({error: "No such category"});

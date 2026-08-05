@@ -70,7 +70,7 @@ async function deleteExerciseTag(req,res){
     return res.status(404).json({error: "No such exercise tag"});
   }
 
-  res.status(200).json(();
+  res.status(200).json();
 }
 
 module.exports = {

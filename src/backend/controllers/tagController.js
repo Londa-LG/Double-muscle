@@ -21,7 +21,7 @@ async function getTags(req,res){
     return res.status(404).json({error: "No tags"});
   }
 
-  res.status(200).json(exerciseTags);
+  res.status(200).json(tags);
 }
 
 async function getTag(req,res){
@@ -37,7 +37,7 @@ async function getTag(req,res){
     return res.status(404).json({error: "No such tag"});
   }
 
-  res.status(200).json(exerciseTag);
+  res.status(200).json(tag);
 }
 
 // Update
@@ -48,7 +48,11 @@ async function updateTag(req,res){
     return res.status(404).json({error: "No such tag id"});
   }
 
-  const tag = await Tag.findOneAndUpdate({_id:id},{...req.body});
+  const tag = await Tag.findOneAndUpdate(
+    {_id:id},
+    { $set:req.body},
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!tag){
     return rs.status(404).json({error: "No such tag"});
@@ -81,47 +85,4 @@ module.exports = {
   updateTag,
   deleteTag
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

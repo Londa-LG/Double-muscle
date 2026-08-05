@@ -6,8 +6,8 @@ async function createBand(req,res){
   const { exerciseId, min_tention, max_tention } = req.body;
 
   try{
-    const band = await Band.create({exerciseId,min_tention,max_tentio});
-    res.status(200).json(workout);
+    const band = await Band.create({exerciseId,min_tention,max_tention});
+    res.status(200).json(band);
   }catch(error){
     res.status(400).json({error: error.message});
   }
@@ -47,7 +47,11 @@ async function updateBand(req,res){
     return res.status(404).json({error: "No such band"});
   }
 
-  const band = await Band.findOneAndUpdate({_id: id},{...req.body});
+  const band = await Band.findOneAndUpdate(
+    {_id: id},
+    { $set: req.body},
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!band){
     return res.status(404).json({error: "No such band"});

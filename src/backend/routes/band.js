@@ -8,8 +8,8 @@ const router = express.Router();
 router.post("/", createBand);
 
 // Read
-router.get("/", getBand);
-router.get("/:id", getBands);
+router.get("/", getBands);
+router.get("/:id", getBand);
 
 // Update
 router.put("/:id", updateBand);

@@ -1,3 +1,4 @@
+const Exercise = require("../models/exerciseModel");
 const Reps = require("../models/repsModel");
 const mongoose = require("mongoose");
 
@@ -6,8 +7,9 @@ async function createRep(req,res){
   const { exerciseId, reps } = req.body;
 
   try{
-    const reps = await Reps.create({exerciseId,reps});
-    res.status(200).json(reps);
+    const exercise = await Exercise.findById(exerciseId);
+    const rep = await Reps.create({"exerciseId":exercise._id,"reps":reps});
+    res.status(200).json(rep);
   }catch(error){
     res.status(400).json({error: error.message});
   }
@@ -48,7 +50,11 @@ async function updateRep(req,res){
     return res.status(404).json({error: "No such rep entry"});
   }
 
-  const rep = await Reps.findOneAndUpdate({_id: id},{...req.body});
+  const rep = await Reps.findOneAndUpdate(
+    {_id: id},
+    { $set: req.body },
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!rep){
     return res.status(404).json({error: "No such rep entry"});
@@ -61,7 +67,7 @@ async function updateRep(req,res){
 async function deleteRep(req,res){
   const { id } = req.params;
 
-  if(!mongoose.Types.OjbjectId.isValid(id)){
+  if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error: "No such rep entry"});
   }
 
