@@ -6,7 +6,7 @@ async function createExerciseReport(req,res){
   const { exerciseId, success } = req.body;
 
   try{
-    const report = await Exercise_Report.create({exerciseId,success});
+    const report = await Exercise_Report.create({exerciseId: exerciseId,success: success});
     res.status(200).json(report);
   }catch(error){
     res.status(400).json({error: error.message});
@@ -27,7 +27,7 @@ async function getExerciseReports(req,res){
 async function getExerciseReport(req,res){
   const { id } = req.params;
 
-  if(!mongoose.Types.ObjectId,isValid(id)){
+  if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error: "No such report id"});
   }
 
@@ -44,11 +44,15 @@ async function getExerciseReport(req,res){
 async function updateExerciseReport(req,res){
   const { id } = req.params;
 
-  if(!mongoose.Types.ObjectId,isValid(id)){
+  if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error: "No such report id"});
   }
 
-  const report = await Exercise_Report.findOneAndUpdate({_id: id},{...req.body});
+  const report = await Exercise_Report.findOneAndUpdate(
+    {_id: id},
+    { $set: req.body},
+    { returnDocument: "after", runValidators: true}
+  );
 
   if(!report)
   {
@@ -62,7 +66,7 @@ async function updateExerciseReport(req,res){
 async function deleteExerciseReport(req,res){
   const { id } = req.params;
 
-  if(!mongoose.Types.ObjectId,isValid(id)){
+  if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error: "No such report id"});
   }
 
@@ -76,53 +80,11 @@ async function deleteExerciseReport(req,res){
   res.status(200).json();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = {
+  createExerciseReport,
+  getExerciseReports,
+  getExerciseReport,
+  updateExerciseReport,
+  deleteExerciseReport,
+}
 

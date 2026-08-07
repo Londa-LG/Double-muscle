@@ -48,7 +48,11 @@ async function updateWorkoutTag(req,res){
     return res.status(404).json({error: "No such workout tag id"});
   }
 
-  const workoutTag = await Workout_Tag.findOneAndUpdate({_id: id},{..req.body});
+  const workoutTag = await Workout_Tag.findOneAndUpdate(
+    {_id: id},
+    { $set: req.body},
+    { returnDocument: "after", runValidators: true }
+  );
 
   if(!workoutTag){
     return res.status(404).json({error: "No such workout tag"});

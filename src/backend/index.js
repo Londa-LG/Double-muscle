@@ -10,6 +10,9 @@ const categoryRoutes = require("./routes/category");
 const exerciseRoutes = require("./routes/exercise");
 const exerciseTagRoutes = require("./routes/exerciseTags");
 const workoutCategoryRoutes = require("./routes/workoutCategories");
+const workoutReportRoutes = require("./routes/workoutReport");
+const exerciseReportRoutes = require("./routes/exerciseReport");
+const workoutTagRoutes = require("./routes/workoutTags");
 
 const app = express();
 
@@ -24,6 +27,9 @@ app.use("/exercises",exerciseRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/exercisetags", exerciseTagRoutes);
 app.use("/workoutcategories", workoutCategoryRoutes);
+app.use("/workoutreports", workoutReportRoutes);
+app.use("/exercisereports", exerciseReportRoutes);
+app.use("/workouttags", workoutTagRoutes);
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

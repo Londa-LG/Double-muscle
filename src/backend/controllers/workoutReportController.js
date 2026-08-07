@@ -15,7 +15,7 @@ async function createWorkoutReport(req,res){
 
 // Read
 async function getWorkoutReports(req, res){
-  const reports = await Workout_Report.find({}).sort({createdAt: -1});
+  const reports = await Workout_Report.find().sort({createdAt: -1});
 
   if(!reports){
     return res.status(404).json({error: "No reports found"});
@@ -31,7 +31,7 @@ async function getWorkoutReport(req,res){
     return res.status(404).json({error: "No such report Id"});
   }
 
-  const report = await Workout_Report.findById(id);
+  const report = await Workout_Report.findById({ _id:id });
 
   if(!report){
     return res.status(404).json({error: "No such report found"});
@@ -48,7 +48,11 @@ async function updateWorkoutReport(req,res){
     return res.status(404).json({error: "No such report id"});
   }
 
-  const report = await Workout_Report.findOneAndUpdate({_id:id},{...req.body});
+  const report = await Workout_Report.findOneAndUpdate(
+    {_id:id},
+    { $set: req.body},
+    { returnDocument: "after", runValidators: true}
+  );
 
   if(!report){
     return res.status(404).json({error: "No such report"});
